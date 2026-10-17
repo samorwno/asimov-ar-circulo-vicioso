@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Dilema de Asimov: Círculo Vicioso (WebAR)</title>
+    <script src="lib/aframe.min.js"></script>
+    <script src="lib/aframe-ar.js"></script>
+    <style>
+      #ui-container { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 600px; z-index: 1000; text-align: center; font-family: monospace; }
+      #dialog-box { background: rgba(0, 0, 0, 0.85); color: #00ff00; padding: 15px; border: 1px solid #00ff00; border-radius: 8px; margin-bottom: 10px; font-size: 15px; }
+      .btn-decision { display: block; width: 100%; background: #222; color: white; border: 1px solid #555; padding: 12px; margin: 6px 0; cursor: pointer; border-radius: 5px; font-size: 14px; transition: 0.3s; }
+      .btn-decision:hover { background: #444; border-color: #00ff00; }
+    </style>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <div id="ui-container">
+      <div id="dialog-box">Speedy está atrapado en un bucle lógico. Ley 2 (órdenes) y Ley 3 (peligro) están en equilibrio. ¿Cómo rompes el círculo?</div>
+      <button class="btn-decision" onclick="decisionA()">A. Ordenar con más fuerza (Ley 2)</button>
+      <button class="btn-decision" onclick="decisionB()">B. Lanzar ácido al camino (Ley 3)</button>
+      <button class="btn-decision" onclick="decisionC()">C. Exponer tu vida al peligro (Ley 1)</button>
+    </div>
+
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+      <a-assets>
+        <a-asset-item id="modelo-robot" src="robot.glb"></a-asset-item>
+      </a-assets>
+      
+      <a-marker preset="hiro">
+        <a-cylinder color="#ff4444" radius="0.3" height="0.1" position="0 0 0"></a-cylinder>
+        <a-entity id="bucle-robot" animation="property: rotation; to: 0 360 0; loop: true; dur: 4000; easing: linear">
+          <a-entity id="speedy" position="1.5 0.5 0">
+            <a-gltf-model src="#modelo-robot" scale="0.35 0.35 0.35" rotation="0 90 0"></a-gltf-model>
+          </a-entity>
+        </a-entity>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const dialogBox = document.getElementById('dialog-box');
+      const speedy = document.getElementById('speedy');
+      const bucle = document.getElementById('bucle-robot');
+
+      function decisionA() {
+        dialogBox.innerHTML = "<strong>Fallo:</strong> Das la orden con firmeza. Speedy da un paso, pero el peligro aumenta (Ley 3) y lo repele a su órbita.";
+        speedy.setAttribute('animation', 'property: position; to: 1.0 0.5 0; dur: 500; dir: alternate; loop: 1');
+      }
+      function decisionB() {
+        dialogBox.innerHTML = "<strong>Fallo:</strong> El ácido altera el entorno. Speedy huye del nuevo peligro, creando un nuevo punto de equilibrio más lejano.";
+        speedy.setAttribute('position', '2.5 0.5 0');
+      }
+      function decisionC() {
+        dialogBox.innerHTML = "<strong>¡Éxito!:</strong> Te pones en peligro. La Primera Ley se activa y sobreescribe todo conflicto. Speedy rompe el bucle para salvarte.";
+        bucle.removeAttribute('animation');
+        bucle.setAttribute('rotation', '0 0 0');
+        speedy.setAttribute('animation', 'property: position; to: 0 0.5 2; dur: 1500; easing: easeOutQuad');
+      }
+    </script>
+  </body>
+</html>
