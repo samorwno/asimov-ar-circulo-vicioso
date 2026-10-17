@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Diagnóstico AR — Asimov</title>
+    <script src="lib/aframe.min.js"></script>
+    <script src="lib/aframe-ar.js"></script>
+    <style>
+      html,body{margin:0;height:100%;background:#000;overflow:hidden}
+      #hud{position:fixed;left:0;right:0;top:0;z-index:20;padding:10px 12px;
+        background:rgba(0,0,0,.72);color:#e8ecff;font:13px/1.45 monospace;pointer-events:none}
+      #hud b{color:#7cf0ff}
+      .row{margin:2px 0}
+      .ok{color:#5dff8f;font-weight:bold}
+      .bad{color:#ff6b6b;font-weight:bold}
+      #found{font-size:20px}
+      #border{position:fixed;inset:0;z-index:15;border:6px solid #ff3b3b;pointer-events:none;transition:border-color .2s}
+      #border.on{border-color:#22c55e}
+    </style>
+  </head>
+  <body>
+    <div id="border"></div>
+    <div id="hud">
+      <div class="row">Asimov — <b>Diagnóstico AR</b></div>
+      <div class="row">Cámara: <span id="cam" class="bad">...</span></div>
+      <div class="row">Vídeo: <span id="res">—</span></div>
+      <div class="row">AR.js: <span id="ver">—</span></div>
+      <div class="row" id="found">MARCador: <span class="bad">buscando…</span></div>
+      <div class="row" id="msg" style="color:#ffd27c"></div>
+      <div class="row" style="color:#9aa4c7">Apunta al marcador Hiro (sin recortar el borde negro).</div>
+    </div>
+
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      <a-marker preset="hiro">
+        <a-box color="#22c55e" position="0 0.25 0" scale="0.35 0.35 0.35"></a-box>
+        <a-text value="OK" align="center" color="#ffffff" position="0 0.65 0"
+                scale="0.5 0.5 0.5" side="double"></a-text>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const cam = $('cam'), res = $('res'), ver = $('ver'), found = $('found'), msg = $('msg'), border = $('border');
+
+      // Versión de AR.js a partir de los logs conocidos
+      $('ver').textContent = '3.4.8 (artoolkit)';
+
+      // Detectar errores/éxito de la cámara interceptando getUserMedia
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const orig = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+        navigator.mediaDevices.getUserMedia = (constraints) => {
+          return orig(constraints).then((s) => {
+            cam.textContent = 'OK'; cam.className = 'ok';
+            setInterval(() => {
+              const v = document.querySelector('video');
+              if (v && v.videoWidth) res.textContent = v.videoWidth + '×' + v.videoHeight;
+            }, 800);
+            return s;
+          }).catch((e) => {
+            cam.textContent = 'ERROR: ' + e.name + ' — ' + e.message;
+            cam.className = 'bad';
+            msg.textContent = 'Permite el acceso a la cámara y abre la página por HTTPS (o localhost).';
+            throw e;
+          });
+        };
+      } else {
+        cam.textContent = 'no disponible (sin secure context)'; cam.className = 'bad';
+        msg.textContent = 'El navegador no expone getUserMedia: usa HTTPS o localhost.';
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const marker = document.querySelector('a-marker');
+        let foundCount = 0;
+        marker.addEventListener('markerFound', () => {
+          foundCount++;
+          found.innerHTML = 'MARCADOR: <span class="ok">DETECTADO ✔</span> (x' + foundCount + ')';
+          border.classList.add('on');
+          msg.textContent = 'Si ves este estado pero no el robot en la versión principal, avísame.';
+        });
+        marker.addEventListener('markerLost', () => {
+          found.innerHTML = 'MARCADOR: <span class="bad">no detectado</span> (buscando…)';
+          border.classList.remove('on');
+        });
+      });
+
+      window.addEventListener('error', (e) => { msg.textContent = 'JS error: ' + e.message; });
+    </script>
+  </body>
+</html>
