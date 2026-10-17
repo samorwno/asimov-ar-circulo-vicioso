@@ -3,6 +3,8 @@
 Proyecto interactivo de Realidad Aumentada sobre las **Tres Leyes de la Robótica** de Isaac Asimov,
 ambientado en el relato *Círculo vicioso* (*Runaround*, 1942) y el dilema del robot **Speedy**.
 
+**Demo en vivo (HTTPS, apto para móvil):** https://samorwno.github.io/asimov-ar-circulo-vicioso/
+
 Requiere un marcador **Hiro** para visualizar la escena. Imprime `markers/hiro.png`
 (o descarga el marcador Hiro clásico) **sin recortar el borde negro** y apunta la cámara a él.
 
