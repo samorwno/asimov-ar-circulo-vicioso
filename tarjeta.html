@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    width: 1240px; height: 1754px; background: #f7f3e8; color: #0c1226;
+    font-family: Georgia, "Liberation Serif", serif; padding: 90px 80px;
+    display: flex; flex-direction: column;
+  }
+  .kicker { font-family: system-ui, sans-serif; letter-spacing: .28em;
+    text-transform: uppercase; font-size: 20px; color: #7a5cff; font-weight: 700; }
+  h1 { font-size: 62px; margin: 10px 0 6px; font-weight: normal; font-style: italic; }
+  .sub { font-family: system-ui, sans-serif; font-size: 26px; color: #555; margin: 0 0 34px; }
+  .rule { height: 6px; background: #0c1226; width: 190px; margin: 0 0 60px; }
+  .grid { display: flex; gap: 56px; align-items: flex-start; }
+  .panel { flex: 1; text-align: center; }
+  .panel img { width: 100%; display: block; border: 1px solid #d8d2c2; }
+  .cap-title { font-family: system-ui, sans-serif; font-weight: 800; font-size: 28px;
+    letter-spacing: .06em; margin: 26px 0 8px; }
+  .cap-desc { font-family: system-ui, sans-serif; font-size: 22px; color: #555; line-height: 1.35; }
+  .steps { margin-top: auto; border-top: 3px solid #0c1226; padding-top: 34px; }
+  .steps h2 { font-family: system-ui, sans-serif; font-size: 26px; margin: 0 0 20px; }
+  ol { margin: 0; padding-left: 40px; font-family: system-ui, sans-serif; font-size: 24px; line-height: 1.7; color: #222; }
+  ol b { color: #0c1226; }
+  .foot { margin-top: 34px; font-family: system-ui, sans-serif; font-size: 20px; color: #777; text-align: center; }
+</style>
+</head>
+<body>
+  <div class="kicker">Ciencia ficción · Realidad Aumentada</div>
+  <h1>Asimov — Círculo Vicioso</h1>
+  <p class="sub">Las Tres Leyes de la Robótica y el dilema del robot Speedy</p>
+  <div class="rule"></div>
+
+  <div class="grid">
+    <div class="panel">
+      <img src="markers/hiro.png" alt="Marcador Hiro">
+      <div class="cap-title">MARCADOR</div>
+      <div class="cap-desc">Apunta aquí la cámara<br>para ver el 3D</div>
+    </div>
+    <div class="panel">
+      <img src="markers/qr-asimov-ar.png" alt="Código QR">
+      <div class="cap-title">CÓDIGO QR</div>
+      <div class="cap-desc">Escanéalo para abrir<br>la experiencia</div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <h2>Cómo usarlo</h2>
+    <ol>
+      <li>Imprime o muestra esta tarjeta.</li>
+      <li><b>Escanea el QR</b> con el móvil: se abre la experiencia web.</li>
+      <li>Permite el <b>acceso a la cámara</b>.</li>
+      <li>Apunta la cámara al <b>marcador</b> de la izquierda y aparece Speedy en 3D.</li>
+    </ol>
+  </div>
+  <div class="foot">samorwno.github.io/asimov-ar-circulo-vicioso</div>
+</body>
+</html>

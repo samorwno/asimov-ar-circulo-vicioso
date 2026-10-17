@@ -5,8 +5,21 @@ ambientado en el relato *Círculo vicioso* (*Runaround*, 1942) y el dilema del r
 
 **Demo en vivo (HTTPS, apto para móvil):** https://samorwno.github.io/asimov-ar-circulo-vicioso/
 
-Requiere un marcador **Hiro** para visualizar la escena. Imprime `markers/hiro.png`
-(o descarga el marcador Hiro clásico) **sin recortar el borde negro** y apunta la cámara a él.
+## Tarjeta todo-en-uno (QR + marcador)
+
+`markers/tarjeta-ar.png` (A4, 2480×3508) reúne **las dos cosas en una sola imagen**:
+
+- **Código QR** → abre esta experiencia en el móvil.
+- **Marcador Hiro** → es lo que la cámara "lee" para colocar el robot en 3D.
+
+> ¿Por qué no un único QR que haga las dos cosas? Se intentó: se generó un patrón AR.js
+> a partir del propio QR. Aunque la detección se dispara, **la transformación que calcula
+> AR.js es inválida** (el contenido acaba a miles de unidades de distancia), porque un QR
+> tan denso no da esquinas fiables al rastreador. Por eso se usan: **QR para abrir** y
+> **marcador Hiro para el 3D**, ambos en la misma tarjeta.
+
+También puedes imprimir solo `markers/hiro.png` (marcador) y `markers/qr-asimov-ar.png` (QR) por separado.
+Imprime el marcador **sin recortar el borde negro**.
 
 ## Cómo ejecutarlo
 
@@ -43,6 +56,10 @@ Speedy está atrapado en un bucle lógico entre la **Segunda Ley** (órdenes) y 
 | `lib/aframe.min.js` | A-Frame 1.4.2 (local, sin CDN) |
 | `lib/aframe-ar.js` | AR.js para A-Frame (local, sin CDN) |
 | `markers/hiro.png` | Marcador Hiro listo para imprimir |
+| `markers/qr-asimov-ar.png` / `.svg` | Código QR que abre la experiencia |
+| `markers/tarjeta-ar.png` | Tarjeta A4 con QR + marcador juntos |
+| `diagnostico.html` | Página de diagnóstico (estado de cámara y detección) |
+| `tarjeta.html` | Fuente de la tarjeta imprimible |
 | `vercel.json` | Cabeceras CORS para desplegar en Vercel |
 | `iniciar.sh` | Servidor local rápido |
 
