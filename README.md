@@ -36,9 +36,22 @@ Imprime el marcador **sin recortar el borde negro**.
    > En móvil la cámara solo funciona por **HTTPS**. Puedes desplegarlo en Vercel o GitHub Pages.
    > El proyecto incluye `vercel.json` con las cabeceras CORS necesarias.
 
-3. Apunta la cámara al marcador Hiro y elige una de las tres decisiones en pantalla.
+3. Pulsa **INICIAR EXPERIENCIA** (activa sonido y narración) y apunta la cámara al marcador Hiro.
+   La historia avanza con el botón **Continuar**; al final eliges una de las tres decisiones.
 
-## Interacción (el dilema de Speedy)
+## Experiencia interactiva
+
+- **Diorama de Mercurio** sobre el marcador: la base minera (cúpula, placas solares, rover,
+  columnas, rocas) alrededor del **pozo de selenio** brillante.
+- **Historia guiada** paso a paso con el botón **Continuar** (texto en pantalla + narración).
+- **Narración de voz** en español con la **voz del propio dispositivo** (Web Speech API); se puede
+  silenciar con 🗣️. No requiere archivos de audio.
+- **Ambiente sonoro** sintetizado en el navegador (Web Audio API): drone ambiental + efectos de
+  acierto, fallo y bucle. Se silencia con 🔊.
+- **Robot animado**: Speedy es un mech con **18 animaciones** (Idle, Hello, Walk, Run, Yes…);
+  camina, saluda y corre según la historia.
+
+## El dilema de Speedy (interacción)
 
 Speedy está atrapado en un bucle lógico entre la **Segunda Ley** (órdenes) y la **Tercera Ley**
 (peligro). Solo la **Primera Ley** rompe el círculo:
@@ -51,8 +64,10 @@ Speedy está atrapado en un bucle lógico entre la **Segunda Ley** (órdenes) y 
 
 | Archivo | Descripción |
 | --- | --- |
-| `index.html` | Escena A-Frame + AR.js y la lógica del dilema |
-| `robot.glb` | Modelo del robot (glTF binario) |
+| `index.html` | Escena A-Frame + AR.js, diorama, historia guiada, voz y sonido |
+| `robot.glb` | Robot *Speedy* (mech, CC0 Quaternius) con 18 animaciones |
+| `modelos/` | Escenografía CC0 (cúpula, placas solares, rover, rocas, columnas…) |
+| `texturas/` | Texturas procedurales del suelo y del pozo |
 | `lib/aframe.min.js` | A-Frame 1.4.2 (local, sin CDN) |
 | `lib/aframe-ar.js` | AR.js para A-Frame (local, sin CDN) |
 | `markers/hiro.png` | Marcador Hiro listo para imprimir |
@@ -70,7 +85,8 @@ no estaba incluido, y las librerías se tomaban de CDNs externos.
 
 Se ha corregido así:
 
-- **Añadido `robot.glb`** (modelo *RobotExpressive*, CC0 — Tomás Laulhé, modificado por Don McCurdy).
+- **Añadido `robot.glb`** (inicialmente *RobotExpressive* CC0; ahora un **mech CC0 de Quaternius**
+  con animaciones, optimizado con `gltf-transform`).
 - **Librerías locales** en `lib/` (A-Frame 1.4.2 y AR.js): funciona sin conexión a internet.
 - **Añadido el marcador imprimible** `markers/hiro.png`.
 - Ajuste de la escala del modelo para el marcador.
@@ -78,5 +94,5 @@ Se ha corregido así:
 ## Créditos
 
 - Relato y leyes: Isaac Asimov, *Círculo vicioso* (*Runaround*, 1942).
-- Modelo 3D: *RobotExpressive* (CC0).
+- Modelo 3D del robot y escenografía: **Quaternius** (CC0) — [quaternius.com](https://quaternius.com/).
 - Framework: [A-Frame](https://aframe.io/) y [AR.js](https://ar-js-org.github.io/AR.js-Docs/).
