@@ -36,11 +36,16 @@ Imprime el marcador **sin recortar el borde negro**.
    > En móvil la cámara solo funciona por **HTTPS**. Puedes desplegarlo en Vercel o GitHub Pages.
    > El proyecto incluye `vercel.json` con las cabeceras CORS necesarias.
 
-3. Pulsa **INICIAR EXPERIENCIA** (activa sonido y narración) y apunta la cámara al marcador Hiro.
-   La historia avanza con el botón **Continuar**; al final eliges una de las tres decisiones.
+3. Pulsa **INICIAR EXPERIENCIA** (activa sonido y narración). Verás primero una **presentación
+   frontal de Speedy** que explica las **Tres Leyes de la Robótica** y recuerda a su «padre»,
+   **Isaac Asimov**; avanza con **Continuar**. Después, apunta la cámara al marcador Hiro:
+   la historia avanza con **Continuar** y al final eliges una de las tres decisiones.
 
 ## Experiencia interactiva
 
+- **Presentación frontal**: antes del AR, un **plano frontal de Speedy** de cuerpo entero, de pie,
+  presenta la escena y recita las **Tres Leyes de la Robótica**, con mención a **Isaac Asimov**.
+  Se avanza con **Continuar** (texto + narración) y luego se entra al diorama en AR.
 - **Diorama de Mercurio** sobre el marcador: la base minera (cúpula, placas solares, rover,
   columnas, rocas) alrededor del **pozo de selenio** brillante.
 - **Historia guiada** paso a paso con el botón **Continuar** (texto en pantalla + narración).
@@ -68,6 +73,8 @@ Speedy está atrapado en un bucle lógico entre la **Segunda Ley** (órdenes) y 
 | `robot.glb` | Robot *Speedy* (mech, CC0 Quaternius) con 18 animaciones |
 | `modelos/` | Escenografía CC0 (cúpula, placas solares, rover, rocas, columnas…) |
 | `texturas/` | Texturas procedurales del suelo y del pozo |
+| `img/speedy-frontal.png` | Retrato frontal de Speedy para la presentación (render transparente) |
+| `_render.html` | Fuente para regenerar el retrato frontal de Speedy |
 | `lib/aframe.min.js` | A-Frame 1.4.2 (local, sin CDN) |
 | `lib/aframe-ar.js` | AR.js para A-Frame (local, sin CDN) |
 | `markers/hiro.png` | Marcador Hiro listo para imprimir |

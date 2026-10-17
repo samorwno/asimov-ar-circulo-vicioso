@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>render</title>
+<script src="lib/aframe.min.js"></script></head>
+<body style="margin:0;background:transparent">
+<a-scene renderer="alpha: true; antialias: true; colorManagement: true">
+  <a-assets><a-asset-item id="r" src="robot.glb"></a-asset-item></a-assets>
+  <a-entity gltf-model="#r" scale="0.32 0.32 0.32" position="0 0 0" go></a-entity>
+  <a-entity light="type: ambient; intensity: 0.9; color: #cfd8ff"></a-entity>
+  <a-entity light="type: directional; intensity: 1.2; color: #ffffff" position="1.2 2 2.5"></a-entity>
+  <a-entity light="type: point; intensity: 0.6; color: #35ffd0; distance: 6" position="-2 1.5 2"></a-entity>
+  <a-entity light="type: point; intensity: 0.5; color: #ff8a3d; distance: 6" position="2 1 1.5"></a-entity>
+  <a-entity camera="fov: 42" position="0 1.05 3.5" rotation="0 0 0"></a-entity>
+</a-scene>
+<script>
+AFRAME.registerComponent('go',{init(){var self=this;this.mx=null;this.el.addEventListener('model-loaded',function(e){
+  var m=e.detail.model; var mx=new THREE.AnimationMixer(m);
+  var clips=m.animations||[]; var want=new URLSearchParams(location.search).get('clip')||'Idle';
+  var c=clips.filter(function(a){return a.name===want;})[0]||clips[0];
+  if(c){ var a=mx.clipAction(c); a.play(); }
+  self.mx=mx; window.__mx=mx; window.__ready=true;
+});},tick(t,dt){ if(this.mx)this.mx.update(dt/1000); }});
+</script>
+</body></html>

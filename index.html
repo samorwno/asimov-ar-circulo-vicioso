@@ -29,6 +29,24 @@
       }
       .btn-grande:active { transform: scale(.97); }
 
+      /* ---- PRESENTACIÓN FRONTAL DE SPEEDY ---- */
+      #presenta { position: fixed; inset: 0; z-index: 3500; display: flex; align-items: center;
+        justify-content: center; padding: 20px; text-align: center;
+        background: radial-gradient(circle at 50% 30%, #10233f 0%, #060910 75%); transition: opacity .4s;
+        overflow-y: auto; }
+      #presenta .pres-wrap { width: 100%; max-width: 440px; display: flex; flex-direction: column;
+        align-items: center; gap: 14px; }
+      #presenta #p-img { height: 38vh; max-height: 340px; width: auto; object-fit: contain;
+        filter: drop-shadow(0 14px 34px rgba(25,224,192,.28)); animation: flotar 3.6s ease-in-out infinite; }
+      @keyframes flotar { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+      #presenta #p-panel { width: 100%; min-height: 96px; background: rgba(6,11,20,.9);
+        border: 1px solid rgba(120,220,255,.4); border-radius: 14px; padding: 14px 16px;
+        font-size: 15px; line-height: 1.5; color: #eaf2ff; box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+      #presenta #p-num { font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+        color: #4fd6ff; margin-bottom: 6px; }
+      #presenta #p-text b { color: #7fe9ff; }
+      #presenta.fade-out { opacity: 0; pointer-events: none; }
+
       /* ---- HUD ---- */
       #hud { position: fixed; top: 0; left: 0; right: 0; z-index: 3000; display: flex;
         align-items: center; justify-content: space-between; padding: 10px 14px;
@@ -73,6 +91,18 @@
       <p>Las Tres Leyes de la Robótica y el bucle imposible del robot <b>Speedy</b> en Mercurio.</p>
       <button class="btn-grande" id="btn-iniciar">▶ INICIAR EXPERIENCIA</button>
       <div class="mini">Permite la cámara y apunta al <b>marcador</b> (tarjeta / Hiro).<br>Sonido y narración incluidos.</div>
+    </div>
+
+    <!-- ============ PRESENTACIÓN FRONTAL DE SPEEDY ============ -->
+    <div id="presenta" class="fade-out">
+      <div class="pres-wrap">
+        <img id="p-img" src="img/speedy-frontal.png" alt="Speedy, el robot">
+        <div id="p-panel">
+          <div id="p-num">Presentación</div>
+          <div id="p-text"></div>
+        </div>
+        <button class="btn-grande" id="btn-continuar">CONTINUAR ▸</button>
+      </div>
     </div>
 
     <!-- ============ HUD ============ -->
@@ -120,7 +150,7 @@
         <!-- ===== DIORAMA ===== -->
         <a-entity id="diorama">
           <!-- suelo -->
-          <a-circle radius="1.0" rotation="-90 0 0" position="0 0 0"
+          <a-circle id="suelo" radius="1.0" rotation="-90 0 0" position="0 0 0"
             material="src:#tex-suelo; repeat: 3 3; roughness: 1; metalness: 0; color: #6b6055"></a-circle>
 
           <!-- ===== POZO DE SELENIO ===== -->
@@ -321,6 +351,7 @@
 
       // ==================== MOTOR DE LA HISTORIA ====================
       var orbita = $('#orbita'), grupo = $('#grupo-speedy'), selenio = $('#selenio'), robotEl = $('#robot');
+      var speedy = $('#speedy'), base = $('#base'), pozo = $('#pozo');
 
       function empezarOrbita() {
         orbita.setAttribute('animation', 'property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear');
@@ -331,7 +362,11 @@
         orbita.setAttribute('rotation', '0 0 0');
         grupo.setAttribute('position', '0.16 0 0.12');
         grupo.removeAttribute('animation');
+        speedy.setAttribute('position', '0.3 0 0');
+        base.setAttribute('visible', 'true');
+        pozo.setAttribute('visible', 'true');
         selenio.setAttribute('visible', 'false');
+        robot.setAttribute('scale', '0.075 0.075 0.075');
         clip('Idle');
       }
 
@@ -417,7 +452,7 @@
         setTexto(t);
         hablar(t);
         limpiarBotones();
-        boton('↺ Volver a empezar', function () { reiniciarEscena(); paso = 0; continuar(); }, true);
+        boton('↺ Volver a empezar', function () { location.reload(); }, true);
       }
 
       // ==================== ESTADO DEL MARCADOR ====================
@@ -427,12 +462,43 @@
       marcador.addEventListener('markerFound', function () { encontrado = true; aviso.style.opacity = 0; });
       marcador.addEventListener('markerLost', function () { encontrado = false; aviso.style.opacity = 1; });
 
+      // ==================== PRESENTACIÓN FRONTAL (Tres Leyes) ====================
+      var presentacion = [
+        "¡Hola! Soy <b>Speedy</b>, un robot de la base minera de Mercurio.",
+        "Antes de empezar, quiero contaros las <b>Tres Leyes de la Robótica</b>: las reglas que me dieron vida… y que a veces me la complican.",
+        "<b>Primera Ley.</b> Un robot no hará daño a un ser humano, ni por inacción permitirá que un ser humano sufra daño.",
+        "<b>Segunda Ley.</b> Un robot obedecerá las órdenes de los seres humanos, excepto si entran en conflicto con la Primera Ley.",
+        "<b>Tercera Ley.</b> Un robot protegerá su propia existencia, siempre que no entre en conflicto con la Primera o la Segunda Ley.",
+        "Quien me las enseñó fue mi <b>padre</b>: <b>Isaac Asimov</b>. En 1942 soñó estas leyes para que ningún robot hiciera daño… pero no imaginó el <b>problema</b> que pueden crear."
+      ];
+      var pIdx = 0;
+
+      function pintarPresentacion() {
+        var t = presentacion[pIdx];
+        $('#p-text').innerHTML = t;
+        $('#p-num').textContent = 'Presentación · ' + (pIdx + 1) + '/' + presentacion.length;
+        hablar(t.replace(/<[^>]+>/g, ''));
+        pIdx++;
+        if (pIdx >= presentacion.length) $('#btn-continuar').textContent = 'ENTRAR EN LA EXPERIENCIA ▸';
+      }
+
       // ==================== INICIO ====================
       $('#btn-iniciar').addEventListener('click', function () {
+        arrancarAmbiente();  // gesto del usuario: habilita audio y narración
         $('#intro').classList.add('fade-out');
-        setTimeout(function () { $('#intro').style.display = 'none'; }, 500);
+        setTimeout(function () { $('#intro').style.display = 'none'; }, 400);
+        $('#presenta').classList.remove('fade-out');
+        pIdx = 0;
+        pintarPresentacion();
+      });
+
+      $('#btn-continuar').addEventListener('click', function () {
+        if (pIdx < presentacion.length) { pintarPresentacion(); return; }
+        // terminar la presentación y entrar en la experiencia AR
+        callar();
+        $('#presenta').classList.add('fade-out');
+        setTimeout(function () { $('#presenta').style.display = 'none'; }, 400);
         ui.classList.remove('fade-out');
-        arrancarAmbiente();
         paso = 0;
         continuar();
       });
