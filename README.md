@@ -74,7 +74,7 @@ Speedy está atrapado en un bucle lógico entre la **Segunda Ley** (órdenes) y 
 | `modelos/` | Escenografía CC0 (cúpula, placas solares, rover, rocas, columnas…) |
 | `texturas/` | Texturas procedurales del suelo y del pozo |
 | `img/speedy-frontal.png` | Retrato frontal de Speedy para la presentación (render transparente) |
-| `_render.html` | Fuente para regenerar el retrato frontal de Speedy |
+| `render-speedy.html` | Fuente para regenerar el retrato frontal de Speedy |
 | `lib/aframe.min.js` | A-Frame 1.4.2 (local, sin CDN) |
 | `lib/aframe-ar.js` | AR.js para A-Frame (local, sin CDN) |
 | `markers/hiro.png` | Marcador Hiro listo para imprimir |
